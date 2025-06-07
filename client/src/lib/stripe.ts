@@ -1,27 +1,25 @@
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "./queryClient";
 
-export function useStripeSubscription() {
+export function useStripeCheckout() {
   const mutation = useMutation({
     mutationFn: async ({ email, tier }: { email: string; tier: string }) => {
-      const response = await apiRequest("POST", "/api/create-subscription", {
+      const response = await apiRequest("POST", "/api/create-checkout", {
         email,
         tier,
       });
       return response.json();
     },
     onSuccess: (data) => {
-      // Redirect to Stripe checkout or handle client secret
-      if (data.clientSecret) {
-        // In production, this would integrate with Stripe Elements
-        // For now, simulate redirect to checkout
-        window.location.href = `https://checkout.stripe.com/pay/${data.clientSecret}`;
+      // Redirect to Stripe's hosted checkout page
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
       }
     },
   });
 
   return {
-    createSubscription: (email: string, tier: string) => 
+    createCheckout: (email: string, tier: string) => 
       mutation.mutate({ email, tier }),
     isLoading: mutation.isPending,
     error: mutation.error,

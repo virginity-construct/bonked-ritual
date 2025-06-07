@@ -35,8 +35,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     `);
   });
   
-  // Create user and initiate subscription
-  app.post("/api/create-subscription", async (req, res) => {
+  // Create Stripe checkout session
+  app.post("/api/create-checkout", async (req, res) => {
     try {
       const { email, tier = 'initiate' } = req.body;
       
@@ -52,56 +52,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
         user = await storage.createUser({ email, tier });
       }
 
-      // Create Stripe customer if not exists
-      let customerId = user.stripeCustomerId;
-      if (!customerId) {
-        const customer = await stripe.customers.create({
-          email: user.email,
-          metadata: { userId: user.id.toString() }
-        });
-        customerId = customer.id;
-        user = await storage.updateUserStripeInfo(user.id, customerId);
-      }
-
-      // Tier pricing mapping
-      const tierPricing = {
-        initiate: process.env.STRIPE_PRICE_INITIATE || 'price_initiate_25_monthly',
-        herald: process.env.STRIPE_PRICE_HERALD || 'price_herald_69_quarterly',
-        oracle: process.env.STRIPE_PRICE_ORACLE || 'price_oracle_111_biannual',
-        shadow: process.env.STRIPE_PRICE_SHADOW || 'price_shadow_500_annual'
+      // Tier pricing mapping with amounts in cents
+      const tierDetails = {
+        initiate: { amount: 2500, name: "FFC Initiate Membership", interval: "month" }, // $25/month
+        herald: { amount: 6900, name: "FFC Herald Membership", interval: "quarter" },   // $69/quarter
+        oracle: { amount: 11100, name: "FFC Oracle Membership", interval: "6months" }, // $111/6months
+        shadow: { amount: 50000, name: "FFC Shadow Key", interval: "year" }            // $500/year
       };
 
-      // Create subscription
-      const subscription = await stripe.subscriptions.create({
-        customer: customerId,
-        items: [{ price: tierPricing[tier as keyof typeof tierPricing] }],
-        payment_behavior: 'default_incomplete',
-        payment_settings: { save_default_payment_method: 'on_subscription' },
-        expand: ['latest_invoice.payment_intent'],
-      });
+      const selectedTier = tierDetails[tier as keyof typeof tierDetails];
 
-      // Update user with subscription ID
-      await storage.updateUserStripeInfo(user.id, customerId, subscription.id);
-      
-      // Create subscription record
-      await storage.createSubscription({
-        userId: user.id,
-        tier,
-        status: subscription.status,
-        currentPeriodEnd: subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null,
+      // Create Stripe checkout session
+      const session = await stripe.checkout.sessions.create({
+        mode: 'subscription',
+        payment_method_types: ['card'],
+        customer_email: email,
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: selectedTier.name,
+                description: `FFC ${tier} tier membership - exclusive access and privileges`,
+              },
+              unit_amount: selectedTier.amount,
+              recurring: {
+                interval: selectedTier.interval as any,
+              },
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: `${req.headers.origin || 'http://localhost:5000'}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${req.headers.origin || 'http://localhost:5000'}/`,
+        metadata: {
+          userId: user.id.toString(),
+          tier: tier,
+        },
       });
-
-      const invoice = subscription.latest_invoice as Stripe.Invoice;
-      const paymentIntent = invoice?.payment_intent as Stripe.PaymentIntent;
 
       res.json({
-        subscriptionId: subscription.id,
-        clientSecret: paymentIntent.client_secret,
+        checkoutUrl: session.url,
+        sessionId: session.id,
       });
 
     } catch (error: any) {
-      console.error('Subscription creation error:', error);
-      res.status(500).json({ message: "Error creating subscription: " + error.message });
+      console.error('Checkout creation error:', error);
+      res.status(500).json({ message: "Error creating checkout: " + error.message });
     }
   });
 
