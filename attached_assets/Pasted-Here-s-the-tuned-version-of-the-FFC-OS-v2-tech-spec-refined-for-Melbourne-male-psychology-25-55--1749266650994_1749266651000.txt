@@ -1,0 +1,140 @@
+Here's the tuned version of the FFC OS v2 tech spec — refined for Melbourne male psychology (25–55), without ever needing to name the city.
+
+This version subtly mirrors the mindset:
+
+Successful but bored
+
+Private but curious
+
+Busy but horny
+
+Risk-aware but status-driven
+
+Used to premium service, but craves informal power access
+
+💻 TECH SPEC — FFC OS v2: The Velvet Guillotine (Local Calibration)
+Code Name: ffc-throne-v2-melb
+Mission: Build a dark, status-coded membership site for FFC — a private men's circle offering early access to women, perks, and intimacy perks for $25/month+. Design for time-rich, privacy-first, control-driven men. Everything must feel discreet, earned, and reward-based.
+
+🧱 TECH STACK
+Frontend: HTML, Tailwind CSS, JS
+
+Fonts: Playfair Display (headings), Inter (body)
+
+Backend (optional): Flask or Supabase (for member tiers + drip logic)
+
+Billing: Stripe (4 product tiers)
+
+CRM: Airtable
+
+Automation: Zapier or n8n
+
+Email: SendGrid
+
+Print/Merch: Printful
+
+Private Alerts: WhatsApp or Telegram integration
+
+⚔️ MELBOURNE-TUNED USER PSYCHOGRAPHIC
+Trait	Implementation
+High disposable income, private desires	Use luxury aesthetic, no hard sell
+Hates wasting time	Immediate Stripe link, fast CTA, no fluff
+Craves discretion + novelty	Framed as a “quiet circle”, erotic drops feel earned
+Status-aware	Tiered system with symbolic merch, ranks, and hidden rooms
+Doesn’t want to be “a client”	Never say “escort”, “booking” — just “access”, “invitation”, “privilege”
+
+🧩 PAGE STRUCTURE
+1. Hero Section – The Threshold
+Headline: “You Didn’t Ask. You Were Chosen.”
+
+Subheadline: “FFC: The circle where early access, priority entry, and quiet perks exist for the few who earned it.”
+
+CTA: [Join Now – $25/month] → Modal for tier choice
+
+Aesthetic: Dark luxury, deep gradients, minimal movement
+
+2. The Code
+3 visual steps (tailored for fast, busy, semi-cynical men):
+
+Initiate: One-time setup. Quiet access starts immediately.
+
+Anticipate: Priority alerts. You hear before others.
+
+Revel: Use it when you want. No minimums. No reminders.
+
+3. The Unspoken Privileges
+Curated grid:
+
+Early Access: Private booking windows before public release
+
+Unlisted Spots: Hidden availabilities not posted elsewhere
+
+The Six-Month Drop: Cap, shirt, or coded token of loyalty
+
+Private Invitations: Last-minute specials or new talent
+
+Whispers from the Oracle: AI-crafted seduction scenes
+
+4. The Ledger (FAQ reframed as prestige Q&A)
+“Do I need to book monthly?”
+→ “Not required. You’re in either way. Use it when it suits.”
+
+“Can I cancel?”
+→ “Always. But most don’t.”
+
+Tone = zero pressure. Calm power.
+
+5. The Oath
+Footer line:
+“Confidential. Optional. Always yours.”
+
+No dates, no tracking language. Just the vibe.
+
+💳 STRIPE TIERS (Revenue + Status Engine)
+Tier	Price	Includes
+Initiate	$25/month	Alerts, soft access, early windows
+Herald	$69/quarter	Merch at 6mo, priority SMS
+Oracle	$111/6mo	Erotic prophecy, Telegram tier unlock
+Shadow Key	$500/year	Full unlock, exclusive 1:1 consult, unreleased drops
+
+All prices feel “worth it” to a guy used to tipping Uber Black, drinking at Gimlet, and buying silence.
+
+🧠 LOCALIZED PSYCHOLOGY LEVERS
+Nothing is oversold — Let curiosity do the lifting
+
+Use scarcity subtly — “Only sent to 12 this month”
+
+Status is earned — “You were invited because you booked. Not because you begged.”
+
+No friction — Stripe, link, inbox. Done.
+
+⚙️ LOGIC & AUTOMATION FLOW
+Post-Booking SMS Trigger:
+
+text
+Copy
+Edit
+you’ve qualified for ffc — a private circle for men who move early, not often. $25/mth unlocks access, perks, and a gift at 6mo. no pitch. just the link:
+https://ffcjoin.link
+At Tier Signup:
+
+Stripe → Airtable (record name/email/tier)
+
+SendGrid drip (Oracle-level only): erotic AI voice drop every 60 days
+
+Printful trigger at Month 6
+
+WhatsApp alert integration for high-tier availability bursts
+
+✨ OPTIONAL ADD-ONS
+Telegram “Veiled Room” for Oracle+
+
+One-time $49 merch drop invites (for non-subscribers)
+
+Friend referral logic: “Gift a key” with $15 kickback
+
+Add-on upgrades (AI tease for $29, upgrade to Oracle for $45)
+
+🔥 CLOSING NOTES
+This is no longer a site. It’s a controlled identity loop for Melbourne men who think they don’t need anything…
+until they feel what it’s like to never have to ask.

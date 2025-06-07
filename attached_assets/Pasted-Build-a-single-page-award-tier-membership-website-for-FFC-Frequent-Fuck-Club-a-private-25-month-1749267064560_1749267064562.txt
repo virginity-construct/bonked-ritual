@@ -1,0 +1,76 @@
+Build a single-page, award-tier membership website for FFC (Frequent Fuck Club), a private $25/month male-only circle for discreet access to premium adult experiences. The site must feel like luxury Web2, while stealth-integrating a Solana wallet layer and NFT logic without mentioning crypto at all.
+
+Target user: men aged 25–55, high-income, privacy-focused, erotically curious but time-poor.
+
+Purpose: Frame FFC as an elite access club, not a subscription. The user must feel chosen, not sold. No wallet jargon. No crypto buzzwords. All tech is hidden beneath seduction.
+
+Tone: secret society meets dark luxury SaaS. Think: RitualOS x Apple x Eyes Wide Shut.
+
+Design:
+- Responsive dark mode layout
+- Playfair Display (headers), Inter (body)
+- Tailwind CSS
+- Color palette:
+  --ffc-black: #0b0b0f
+  --ffc-blood: #8b1e3f
+  --ffc-velvet: #5e3d75
+- Subtle microinteractions on hover (glow, icon pulse, modal fade)
+- Custom cursor class: `.cursor-sigil` that activates on CTAs
+- Favicon: minimalist serpent or keyhole crest
+
+Page Sections:
+
+1. **Hero – The Threshold**
+   - Headline: "You Didn’t Ask. You Were Chosen."
+   - Sub: "FFC is not a membership. It's a rite. $25/month unlocks access."
+   - CTA: [Begin Initiation]
+   - Background FX: subtle dark sigil animation (SVG loop or Lottie)
+
+2. **The Code**
+   - 3 steps:
+     1. Initiate – Join privately via Stripe
+     2. Anticipate – Get discreet alerts, hidden offers
+     3. Revel – Privileges deepen the longer you stay
+   - Stylized geometric icon set
+
+3. **Unspoken Privileges**
+   - Grid of benefits (tier-unlocked, no hard labels):
+     - Early access windows
+     - Unlisted encounters
+     - Erotic Oracle (custom AI scenes)
+     - Sixth-Month Rite (gift drop)
+     - Inner Veil Invites
+     - [Hidden: NFT quietly minted at Tier 2]
+
+4. **The Ledger (FAQ)**
+   - “Is this a subscription?” → "You’re not paying for access. You’re paying to never wait again."
+   - “Do I need crypto?” → “Nothing technical required. All tools are built for silence.”
+
+5. **The Oath (Footer)**
+   - Text: “Beyond judgment. Only reward.”
+
+Integrations:
+- Stripe checkout: 4 product tiers (Initiate, Herald, Oracle, Shadow Key)
+- Helius API: silent NFT mint post-tier upgrade (no UI)
+- Magic.link: email-based wallet binding if user opts in (silent fallback)
+- SendGrid: erotic AI content flow (Oracle+)
+- Printful: month 6 merch dispatch
+- Supabase or Airtable backend for user-tier logic
+- JS Exit-Intent modal with randomized quotes:
+  [
+    "Most men consume. FFC exists for the few who reciprocate.",
+    "You’ve seen the veil. It won’t wait long.",
+    "Access is vanishing. This window won’t open again."
+  ]
+
+Output all files:
+- `index.html`
+- `style.css`
+- `modal.js`
+- `wallet.js` (stealth bind + mint logic)
+- `stripe.js` (tier handler)
+- Provide full Stripe product ID placeholder references
+- Compress into deploy-ready package
+
+This site must feel custom-coded by a ritualist who dated UX itself. It must whisper to the user, not shout. It must win awards while hiding the engine.
+

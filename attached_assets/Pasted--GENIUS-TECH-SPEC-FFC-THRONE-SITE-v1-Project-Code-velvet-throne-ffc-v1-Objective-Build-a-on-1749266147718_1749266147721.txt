@@ -1,0 +1,95 @@
+🧠 GENIUS TECH SPEC — FFC // THRONE SITE v1
+Project Code: velvet-throne-ffc-v1
+Objective: Build a one-page, ritual-themed, dark-mode membership site for FFC (Frequent Fuck Club), a $25/month private circle for returning escort clients.
+Purpose: Frame FFC not as a subscription, but as an initiation into a secret society. The tone must seduce, not sell.
+
+🔧 STACK & CONSTRAINTS
+Frontend: HTML, Tailwind CSS, minimal JS
+
+Fonts:
+
+Headings: Playfair Display
+
+Body: Inter or Poppins
+
+Color Palette:
+
+css
+Copy
+Edit
+--ffc-black: #0b0b0f;
+--ffc-blood: #8b1e3f;
+--ffc-velvet: #5e3d75;
+Stripe: Embed hosted checkout link or modal trigger:
+https://buy.stripe.com/test_dummy (placeholder)
+
+Visual FX:
+
+CTA hover = soft glow
+
+Cursor: .cursor-sigil (optional flicker or emblem on hover)
+
+📐 PAGE STRUCTURE
+1. Hero Section – The Threshold
+Headline: “You Didn’t Ask. You Were Chosen.”
+
+Subheading: “FFC: The inner circle. Where access is currency, and the unspoken is understood.”
+
+CTA Button:
+[Claim Your Legacy – $25/month] → triggers modal or links to Stripe
+
+Background: Deep black with subtle animated crest or sigil (optional SVG watermark)
+
+2. The Code (How It Works – Reimagined)
+Minimalist 3-step structure (with custom icons or styled numerals):
+
+Initiate: Join FFC. The first whisper of access.
+
+Anticipate: Receive discreet alerts—new girls, hidden windows.
+
+Revel: Privileges unfold. No further permission required.
+
+3. The Unspoken Privileges (Perks – Mythified)
+Grid or card layout:
+
+Priority Enrolment
+
+Concealed Chambers (unlisted availabilities)
+
+The Sixth-Month Rite (exclusive merch drop)
+
+Invites to the Veiled (hidden events)
+
+Whispers from the Oracle (AI-crafted filth, optional)
+
+4. The Ledger (FAQs – Rewritten as Creed)
+“Must I engage monthly?” → “Your standing remains. The allure endures.”
+
+“Is withdrawal permitted?” → “At your discretion. The door is never truly closed.”
+
+5. The Oath (Footer)
+Line: “Sanctuary of discretion. Sovereignty of choice. Beyond judgment, only reward.”
+
+Optional: Crest favicon, copyright
+
+⚙️ OPTIONAL JS FEATURES
+ffc.join modal: Reveals a final seduction quote + Stripe checkout button
+
+Exit-Intent Handler: If user attempts to leave without joining, display randomized quote:
+
+js
+Copy
+Edit
+[
+  "Most men consume. FFC exists for the few who reciprocate.",
+  "You’re not paying for access. You’re paying to never wait again.",
+  "This isn’t urgency. It’s inevitability."
+]
+✅ DELIVERABLES
+/index.html
+
+/style.css
+
+/script.js (for modal + exit logic)
+
+All assets self-contained. Mobile-first responsive. Tailwind preferred.
