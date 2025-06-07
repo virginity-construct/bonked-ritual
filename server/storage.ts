@@ -46,8 +46,9 @@ export class MemStorage implements IStorage {
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentUserId++;
     const user: User = {
-      ...insertUser,
       id,
+      email: insertUser.email,
+      tier: insertUser.tier || 'initiate',
       stripeCustomerId: null,
       stripeSubscriptionId: null,
       walletAddress: null,
@@ -96,12 +97,11 @@ export class MemStorage implements IStorage {
   }
 
   async updateSubscriptionStatus(userId: number, status: string): Promise<void> {
-    for (const [id, sub] of this.subscriptions.entries()) {
+    Array.from(this.subscriptions.entries()).forEach(([id, sub]) => {
       if (sub.userId === userId) {
         this.subscriptions.set(id, { ...sub, status });
-        break;
       }
-    }
+    });
   }
 
   async createNftToken(nftToken: InsertNftToken): Promise<void> {

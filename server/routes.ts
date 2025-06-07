@@ -79,7 +79,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const invoice = subscription.latest_invoice as Stripe.Invoice;
-      const paymentIntent = invoice.payment_intent as Stripe.PaymentIntent;
+      const paymentIntent = invoice?.payment_intent as Stripe.PaymentIntent;
 
       res.json({
         subscriptionId: subscription.id,

@@ -22,12 +22,12 @@ export default function HeroSection({ onOpenModal }: HeroSectionProps) {
         </div>
         
         <h1 className="font-playfair text-5xl md:text-7xl font-bold mb-6 leading-tight">
-          <span className="text-gradient">You Didn't Ask.</span><br>
+          <span className="text-gradient">You Didn't Ask.</span><br />
           <span className="text-[var(--ffc-blood)]">You Were Chosen.</span>
         </h1>
         
         <p className="text-xl md:text-2xl text-muted-foreground mb-12 font-light leading-relaxed">
-          FFC is not a membership. It's a rite.<br>
+          FFC is not a membership. It's a rite.<br />
           <span className="text-white font-medium">$25/month unlocks access.</span>
         </p>
         
