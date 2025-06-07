@@ -22,6 +22,19 @@ mailService.setApiKey(process.env.SENDGRID_API_KEY);
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
+  // Test route to verify server is working
+  app.get("/test", (req, res) => {
+    res.send(`
+      <!DOCTYPE html>
+      <html><head><title>FFC Test</title></head>
+      <body style="background:#0b0b0f;color:white;text-align:center;padding:50px;font-family:Arial">
+        <h1>FFC Server Running</h1>
+        <p>Server is working properly on port 5000</p>
+        <a href="/" style="color:#8b1e3f">Go to React App</a>
+      </body></html>
+    `);
+  });
+  
   // Create user and initiate subscription
   app.post("/api/create-subscription", async (req, res) => {
     try {
