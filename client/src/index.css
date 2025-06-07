@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(336, 63%, 33%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(336, 63%, 33%);
+  --radius: 0.5rem;
+  
+  /* FFC Custom Colors */
+  --ffc-black: hsl(240, 20%, 4%);
+  --ffc-blood: hsl(336, 63%, 33%);
+  --ffc-velvet: hsl(267, 28%, 42%);
+  --ffc-gray: hsl(240, 6%, 10%);
+  --ffc-gray-light: hsl(240, 4%, 16%);
+}
+
+.dark {
+  --background: hsl(240, 20%, 4%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 6%, 10%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 20%, 4%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 6%, 10%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(336, 63%, 33%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(336, 63%, 33%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--ffc-black) 0%, var(--ffc-gray) 100%);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .cursor-sigil {
+    cursor: url("data:image/svg+xml,%3csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z' fill='%23ffffff'/%3e%3c/svg%3e") 12 12, pointer;
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-sm border border-white/10;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, var(--ffc-blood) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-effect {
+    box-shadow: 0 0 30px rgba(139, 30, 63, 0.4);
+  }
+
+  .ritual-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(139, 30, 63, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(94, 61, 117, 0.1) 0%, transparent 50%);
+  }
+}
+
+@layer utilities {
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 20px rgba(139, 30, 63, 0.3);
+    }
+    to {
+      box-shadow: 0 0 40px rgba(139, 30, 63, 0.6);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
