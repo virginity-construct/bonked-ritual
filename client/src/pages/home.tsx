@@ -124,10 +124,19 @@ export default function Home() {
             <span className="text-[#8b1e3f]">You Were Chosen.</span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-gray-300 mb-12 font-light leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-300 mb-6 font-light leading-relaxed">
             FFC is not a membership. It's a rite.<br />
             <span className="text-white font-medium">$25/month. Immediate access. No questions.</span>
           </p>
+          
+          <div className="relative group mb-12">
+            <p className="text-lg text-amber-300 font-medium leading-relaxed cursor-default">
+              🜁 Includes $500 in unreleased BONKED videos – never posted, never repeated.
+            </p>
+            <p className="text-sm text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
+              Some things aren't sold. They vanish.
+            </p>
+          </div>
           
           <div className="relative inline-block">
             <button 
@@ -215,6 +224,9 @@ export default function Home() {
                       <div>
                         <h4 className="font-semibold text-white">{tier.name}</h4>
                         <p className="text-sm text-gray-400">{tier.desc}</p>
+                        {tier.id === 'initiate' && (
+                          <p className="text-xs text-amber-300 mt-1">BONKED Vault Access – $500 in rare video drops</p>
+                        )}
                       </div>
                     </div>
                     <span className={`font-bold ${tier.id === 'shadow' ? 'text-yellow-500' : 'text-[#8b1e3f]'}`}>
