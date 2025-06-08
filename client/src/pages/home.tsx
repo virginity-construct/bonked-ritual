@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useStripeCheckout } from "@/lib/stripe";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -64,10 +64,26 @@ export default function Home() {
     }, 1200);
   };
 
+  // Scroll-triggered ritual effects
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > window.innerHeight * 0.8) {
+        document.body.classList.add('scrolled');
+      } else {
+        document.body.classList.remove('scrolled');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
 
 
   return (
     <div className="min-h-screen bg-gradient-radial from-[#0b0b0f] via-[#1a1a2e] to-black text-white">
+      {/* Ritual Glyph Background */}
+      <div className="ritual-glyph"></div>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
         {/* Ambient Sigils */}
@@ -107,7 +123,7 @@ export default function Home() {
             {/* Radial gradient behind title */}
             <div className="absolute inset-0 bg-gradient-radial from-[var(--sigil-purple)]/20 via-transparent to-transparent blur-xl scale-150"></div>
             
-            <h1 className="relative text-5xl md:text-7xl font-bold mb-6 leading-tight" style={{ fontFamily: 'UnifrakturCook, serif' }}>
+            <h1 className="hero-title relative text-5xl md:text-7xl font-bold mb-6 leading-tight">
               <span className="bg-gradient-to-r from-white to-[#8b1e3f] bg-clip-text text-transparent">You Didn't Ask.</span><br />
               <span className="text-[var(--bonked-glow)]" style={{ textShadow: '0 0 10px var(--bonked-glow), 0 0 20px var(--bonked-glow), 0 0 40px var(--bonked-glow)' }}>You Were Chosen.</span>
             </h1>

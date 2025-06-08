@@ -1,4 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=UnifrakturCook:wght@700&family=Cardo:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=UnifrakturCook:wght@700&family=Cardo:wght@400;700&family=Cinzel:wght@400;500;600;700&display=swap');
+
+/* Sacred Ritual Font */
+@font-face {
+  font-family: 'SacredRite';
+  src: url('data:font/woff2;base64,') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -45,6 +54,11 @@
   0%, 100% { opacity: 0.6; }
   33% { opacity: 0.8; }
   66% { opacity: 0.4; }
+}
+
+@keyframes blurPulse {
+  0%, 100% { text-shadow: 0 0 10px var(--bonked-glow), 0 0 20px var(--bonked-glow), 0 0 40px var(--bonked-glow); }
+  50% { text-shadow: 0 0 20px var(--bonked-glow), 0 0 40px var(--bonked-glow), 0 0 80px var(--bonked-glow); }
 }
 
 :root {
@@ -119,6 +133,54 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
+  }
+
+  /* Hero Title Enhanced Typography */
+  .hero-title {
+    font-family: 'SacredRite', 'Cinzel', 'UnifrakturCook', serif !important;
+    font-size: 3.5rem;
+    line-height: 1.2;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+    transition: text-shadow 0.3s ease-in-out;
+  }
+
+  /* Ritual Glyph Background */
+  .ritual-glyph {
+    position: fixed;
+    bottom: 10vh;
+    right: 5vw;
+    width: 120px;
+    height: 120px;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+    z-index: 0;
+    background: url("data:image/svg+xml,%3csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M60 10L70 30L90 20L80 40L100 50L80 60L90 80L70 70L60 90L50 70L30 80L40 60L20 50L40 40L30 20L50 30Z' fill='%23D7B56D' opacity='0.3'/%3e%3ccircle cx='60' cy='60' r='15' fill='none' stroke='%23FF3366' stroke-width='2' opacity='0.5'/%3e%3c/svg%3e") no-repeat center center;
+    background-size: contain;
+  }
+
+  /* Scroll-triggered states */
+  body.scrolled .hero-title {
+    animation: blurPulse 3s infinite;
+  }
+
+  body.scrolled .ritual-glyph {
+    opacity: 0.08;
+  }
+
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .ritual-glyph {
+      width: 80px;
+      height: 80px;
+      bottom: 5vh;
+      right: 3vw;
+    }
+    
+    .hero-title {
+      font-size: 2.5rem !important;
+    }
   }
 }
 
