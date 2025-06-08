@@ -4,23 +4,32 @@ import { apiRequest } from "./queryClient";
 export function useStripeCheckout() {
   const mutation = useMutation({
     mutationFn: async ({ email, tier }: { email: string; tier: string }) => {
+      console.log("Making API request to create checkout:", { email, tier });
       const response = await apiRequest("POST", "/api/create-checkout", {
         email,
         tier,
       });
-      return response.json();
+      const data = await response.json();
+      console.log("API response:", data);
+      return data;
     },
     onSuccess: (data) => {
+      console.log("Checkout success, redirecting to:", data.checkoutUrl);
       // Redirect to Stripe's hosted checkout page
       if (data.checkoutUrl) {
         window.location.href = data.checkoutUrl;
       }
     },
+    onError: (error) => {
+      console.error("Checkout error:", error);
+    },
   });
 
   return {
-    createCheckout: (email: string, tier: string) => 
-      mutation.mutate({ email, tier }),
+    createCheckout: (email: string, tier: string) => {
+      console.log("createCheckout called with:", { email, tier });
+      mutation.mutate({ email, tier });
+    },
     isLoading: mutation.isPending,
     error: mutation.error,
   };

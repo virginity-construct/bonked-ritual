@@ -107,6 +107,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => {
+                  console.log("Begin Rite clicked - Email:", email, "Tier:", selectedTier);
                   if (!email) {
                     toast({
                       title: "Email Required",
@@ -115,6 +116,7 @@ export default function Home() {
                     });
                     return;
                   }
+                  console.log("About to call createCheckout");
                   createCheckout(email, selectedTier);
                 }}
                 disabled={isLoading}
