@@ -7,8 +7,61 @@ export default function Home() {
   const [selectedTier, setSelectedTier] = useState("initiate");
   const [email, setEmail] = useState("");
   const [isButtonHovered, setIsButtonHovered] = useState(false);
+  const [hoveredTier, setHoveredTier] = useState<string | null>(null);
+  const [showWhisper, setShowWhisper] = useState(false);
   const { createCheckout, isLoading } = useStripeCheckout();
   const { toast } = useToast();
+
+  const tiers = [
+    { 
+      id: "initiate", 
+      name: "Initiate", 
+      price: "$25/month", 
+      desc: "Essential access",
+      sigil: "⭘",
+      whisper: "The circle opens. You step through."
+    },
+    { 
+      id: "herald", 
+      name: "Herald", 
+      price: "$69/quarter", 
+      desc: "Priority + merch",
+      sigil: "✦",
+      whisper: "Your name is known. A token awaits."
+    },
+    { 
+      id: "oracle", 
+      name: "Oracle", 
+      price: "$111/6mo", 
+      desc: "Full privileges",
+      sigil: "◉",
+      whisper: "You will hear what others can't."
+    },
+    { 
+      id: "shadow", 
+      name: "Shadow Key", 
+      price: "$500/year", 
+      desc: "Ultimate access",
+      sigil: "𓂀",
+      whisper: "What's hidden bends to your will."
+    }
+  ];
+
+  const handleBeginRite = () => {
+    if (!email) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email to proceed",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setShowWhisper(true);
+    setTimeout(() => {
+      createCheckout(email, selectedTier);
+    }, 1200);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-radial from-[#0b0b0f] via-[#1a1a2e] to-black text-white">
@@ -84,30 +137,38 @@ export default function Home() {
 
             {/* Tier Selection */}
             <div className="space-y-3 mb-6">
-              {[
-                { id: "initiate", name: "Initiate", price: "$25/month", desc: "Essential access" },
-                { id: "herald", name: "Herald", price: "$69/quarter", desc: "Priority + merch" },
-                { id: "oracle", name: "Oracle", price: "$111/6mo", desc: "Full privileges" },
-                { id: "shadow", name: "Shadow Key", price: "$500/year", desc: "Ultimate access" }
-              ].map((tier) => (
+              {tiers.map((tier) => (
                 <div 
                   key={tier.id} 
-                  className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+                  className={`relative border rounded-lg p-4 cursor-pointer transition-all duration-300 ${
                     selectedTier === tier.id 
-                      ? 'border-[#8b1e3f] bg-[#8b1e3f]/10' 
+                      ? 'border-[#8b1e3f] bg-[#8b1e3f]/10 shadow-[0_0_8px_rgba(91,38,111,0.6)]' 
                       : 'border-gray-600 hover:border-[#8b1e3f]'
                   }`}
                   onClick={() => setSelectedTier(tier.id)}
+                  onMouseEnter={() => setHoveredTier(tier.id)}
+                  onMouseLeave={() => setHoveredTier(null)}
                 >
                   <div className="flex justify-between items-center">
-                    <div>
-                      <h4 className="font-semibold text-white">{tier.name}</h4>
-                      <p className="text-sm text-gray-400">{tier.desc}</p>
+                    <div className="flex items-center gap-3">
+                      <span className="text-[#8b1e3f] text-lg font-mono">{tier.sigil}</span>
+                      <div>
+                        <h4 className="font-semibold text-white">{tier.name}</h4>
+                        <p className="text-sm text-gray-400">{tier.desc}</p>
+                      </div>
                     </div>
                     <span className={`font-bold ${tier.id === 'shadow' ? 'text-yellow-500' : 'text-[#8b1e3f]'}`}>
                       {tier.price}
                     </span>
                   </div>
+                  
+                  {/* Tooltip */}
+                  {hoveredTier === tier.id && (
+                    <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-black/90 border border-[#8b1e3f] rounded px-3 py-2 text-sm text-gray-300 whitespace-nowrap z-10 opacity-0 animate-[fadeIn_0.3s_ease-in-out_forwards]">
+                      {tier.whisper}
+                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-[#8b1e3f]"></div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -120,23 +181,24 @@ export default function Home() {
                 Not Yet
               </button>
               <button
-                onClick={() => {
-                  if (!email) {
-                    toast({
-                      title: "Email Required",
-                      description: "Please enter your email to proceed",
-                      variant: "destructive"
-                    });
-                    return;
-                  }
-                  createCheckout(email, selectedTier);
-                }}
+                onClick={handleBeginRite}
                 disabled={isLoading}
                 className="flex-1 bg-gradient-to-r from-[#8b1e3f] to-[#5e3d75] text-white py-2 px-4 rounded hover:scale-[1.02] hover:brightness-110 hover:shadow-[0_0_12px_rgba(142,45,226,0.4)] transition-all duration-300 disabled:opacity-50"
               >
-                {isLoading ? "Processing..." : "Claim Your Rite"}
+                {isLoading ? "Processing..." : "Enter the Circle"}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Post-Click Whisper Overlay */}
+      {showWhisper && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[60]">
+          <div className="text-center">
+            <p className="text-2xl text-white font-light opacity-0 animate-[fadeIn_1s_ease-in-out_forwards]" style={{ fontFamily: 'Playfair Display, serif' }}>
+              The veil parts. You won't come back the same.
+            </p>
           </div>
         </div>
       )}
