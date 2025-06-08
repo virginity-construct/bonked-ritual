@@ -11,6 +11,10 @@ import { voiceOracle } from "./voice-oracle";
 import { physicalTokenService } from "./physical-tokens";
 import { bonkedGovernance } from "./bonked-governance";
 import { veiledEncounters } from "./veiled-encounters";
+import { anointingSystem } from "./anointing-system";
+import { ritualScarcity } from "./ritual-scarcity";
+import { gamifiedTokens } from "./gamified-tokens";
+import { prophecyReforging } from "./prophecy-reforging";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -453,6 +457,186 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.send(encounterInterface);
     } catch (error: any) {
       res.status(500).json({ message: "Error loading encounters: " + error.message });
+    }
+  });
+
+  // Anointing System API
+  app.get("/api/anointing/eligibility/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const eligibility = await anointingSystem.checkAnointingEligibility(userId);
+      res.json(eligibility);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error checking anointing eligibility: " + error.message });
+    }
+  });
+
+  app.post("/api/anointing/anoint", async (req, res) => {
+    try {
+      const { anointerId, recipientId, sigilType, publicMessage } = req.body;
+      const anointment = await anointingSystem.anointUser(anointerId, recipientId, sigilType, publicMessage);
+      res.json({ message: "Anointing successful", anointment });
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/anointing/user/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const anointments = await anointingSystem.getUserAnointments(userId);
+      res.json(anointments);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading user anointments: " + error.message });
+    }
+  });
+
+  app.get("/api/anointing/benefits/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const benefits = await anointingSystem.applyAnointmentBenefits(userId);
+      res.json(benefits);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading anointing benefits: " + error.message });
+    }
+  });
+
+  app.get("/api/anointing/recent", async (req, res) => {
+    try {
+      const recent = anointingSystem.getRecentAnointings(20);
+      res.json({ anointings: recent });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading recent anointings: " + error.message });
+    }
+  });
+
+  app.get("/api/anointing", async (req, res) => {
+    try {
+      const interface = anointingSystem.generateAnointingInterface();
+      res.setHeader('Content-Type', 'text/html');
+      res.send(interface);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading anointing interface: " + error.message });
+    }
+  });
+
+  // Ritual Scarcity API
+  app.get("/api/ritual-scarcity/proposals", async (req, res) => {
+    try {
+      const proposals = ritualScarcity.getActiveScarcityProposals();
+      res.json({ proposals });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading scarcity proposals: " + error.message });
+    }
+  });
+
+  app.post("/api/ritual-scarcity/vote", async (req, res) => {
+    try {
+      const { proposalId, userId } = req.body;
+      const result = await ritualScarcity.voteOnScarcityProposal(proposalId, userId);
+      res.json(result);
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/ritual-scarcity", async (req, res) => {
+    try {
+      const interface = ritualScarcity.generateScarcityInterface();
+      res.setHeader('Content-Type', 'text/html');
+      res.send(interface);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading ritual scarcity: " + error.message });
+    }
+  });
+
+  // Gamified Tokens API
+  app.get("/api/tokens/available/:userTier", async (req, res) => {
+    try {
+      const userTier = req.params.userTier;
+      const tokens = gamifiedTokens.getAvailableTokens(userTier);
+      res.json({ tokens });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading available tokens: " + error.message });
+    }
+  });
+
+  app.post("/api/tokens/claim", async (req, res) => {
+    try {
+      const { tokenId, userId } = req.body;
+      const result = await gamifiedTokens.attemptClaim(tokenId, userId);
+      res.json(result);
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/tokens/claims/recent", async (req, res) => {
+    try {
+      const claims = gamifiedTokens.getRecentClaims(15);
+      res.json({ claims });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading recent claims: " + error.message });
+    }
+  });
+
+  app.get("/api/tokens", async (req, res) => {
+    try {
+      const interface = gamifiedTokens.generateClaimInterface();
+      res.setHeader('Content-Type', 'text/html');
+      res.send(interface);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading token interface: " + error.message });
+    }
+  });
+
+  // Prophecy Reforging API
+  app.get("/api/prophecy/user/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const prophecies = await prophecyReforging.getUserProphecies(userId);
+      res.json({ prophecies });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading user prophecies: " + error.message });
+    }
+  });
+
+  app.post("/api/prophecy/burn", async (req, res) => {
+    try {
+      const { prophecyId, userId, paymentMethod } = req.body;
+      const result = await prophecyReforging.initiateProphecyBurn(prophecyId, userId, paymentMethod);
+      res.json(result);
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  app.post("/api/prophecy/reforge/:reforgeId", async (req, res) => {
+    try {
+      const reforgeId = req.params.reforgeId;
+      const result = await prophecyReforging.completeProphecyReforge(reforgeId);
+      res.json(result);
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/prophecy/stats", async (req, res) => {
+    try {
+      const stats = prophecyReforging.getReforgeStats();
+      res.json(stats);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading reforge stats: " + error.message });
+    }
+  });
+
+  app.get("/api/prophecy", async (req, res) => {
+    try {
+      const interface = prophecyReforging.generateReforgeInterface();
+      res.setHeader('Content-Type', 'text/html');
+      res.send(interface);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading prophecy interface: " + error.message });
     }
   });
 
