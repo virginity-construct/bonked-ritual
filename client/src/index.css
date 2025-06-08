@@ -10,6 +10,17 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 :root {
   --background: hsl(240, 10%, 3.9%);
   --foreground: hsl(0, 0%, 98%);

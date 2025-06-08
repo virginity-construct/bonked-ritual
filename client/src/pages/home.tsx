@@ -132,9 +132,9 @@ export default function Home() {
                   createCheckout(email, selectedTier);
                 }}
                 disabled={isLoading}
-                className="flex-1 bg-gradient-to-r from-[#8b1e3f] to-[#5e3d75] text-white py-2 px-4 rounded hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="flex-1 bg-gradient-to-r from-[#8b1e3f] to-[#5e3d75] text-white py-2 px-4 rounded hover:scale-[1.02] hover:brightness-110 hover:shadow-[0_0_12px_rgba(142,45,226,0.4)] transition-all duration-300 disabled:opacity-50"
               >
-                {isLoading ? "Processing..." : "Begin Rite"}
+                {isLoading ? "Processing..." : "Claim Your Rite"}
               </button>
             </div>
           </div>
