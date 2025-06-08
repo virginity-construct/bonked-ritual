@@ -243,6 +243,93 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   }
 
+  // Whisper Engine API - Oracle+ only
+  app.post("/api/generate-whisper", async (req, res) => {
+    try {
+      const { userId } = req.body;
+      const user = await storage.getUser(userId);
+      
+      if (!user || !['oracle', 'shadow'].includes(user.tier)) {
+        return res.status(403).json({ message: "Whispers only available for Oracle+ members" });
+      }
+
+      const profile = {
+        userId,
+        tier: user.tier,
+        tags: ['dominant', 'mysterious'], // Would be stored in user preferences
+        preferences: {}
+      };
+
+      const whisper = await whisperEngine.generatePersonalizedWhisper(profile);
+      res.json(whisper);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error generating whisper: " + error.message });
+    }
+  });
+
+  // Custom Prophecy Request - $29 service
+  app.post("/api/request-prophecy", async (req, res) => {
+    try {
+      const { userId, customRequest } = req.body;
+      const response = await whisperEngine.scheduleCustomProphecy(userId, customRequest);
+      res.json({ message: response });
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  // BONKED Token Integration
+  app.get("/api/bonked-launch", async (req, res) => {
+    try {
+      const launchPage = bonkedIntegration.generateLaunchPage();
+      res.setHeader('Content-Type', 'text/html');
+      res.send(launchPage);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading BONKED launch: " + error.message });
+    }
+  });
+
+  app.post("/api/stake-bonked", async (req, res) => {
+    try {
+      const { userId, amount } = req.body;
+      const result = await bonkedIntegration.initializeStaking(userId, amount);
+      res.json(result);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error staking BONKED: " + error.message });
+    }
+  });
+
+  // Veiled Room Access
+  app.get("/api/veiled-access/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const access = await veiledRoom.checkVeiledAccess(userId);
+      res.json(access);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error checking veiled access: " + error.message });
+    }
+  });
+
+  app.post("/api/request-veiled-invite", async (req, res) => {
+    try {
+      const { userId } = req.body;
+      const inviteLink = await veiledRoom.generateTelegramInvite(userId);
+      res.json({ inviteLink });
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/veiled-room", async (req, res) => {
+    try {
+      const roomInterface = veiledRoom.generateVeiledRoomInterface();
+      res.setHeader('Content-Type', 'text/html');
+      res.send(roomInterface);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading veiled room: " + error.message });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

@@ -22,14 +22,15 @@ export class VeiledRoom {
       throw new Error('User not found');
     }
 
-    const membershipDuration = this.calculateMembershipDuration(user.createdAt);
+    const membershipStartDate = user.createdAt || new Date();
+    const membershipDuration = this.calculateMembershipDuration(membershipStartDate);
     const hasRequiredDuration = membershipDuration >= 90; // 3 months
     const hasRequiredTier = ['oracle', 'shadow'].includes(user.tier);
 
     return {
       userId,
       tier: user.tier,
-      membershipStartDate: user.createdAt,
+      membershipStartDate,
       accessGranted: hasRequiredDuration && hasRequiredTier,
       specialChannels: this.getChannelAccess(user.tier)
     };
