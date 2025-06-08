@@ -6,19 +6,24 @@ export default function Home() {
   const [isInitiationModalOpen, setIsInitiationModalOpen] = useState(false);
   const [selectedTier, setSelectedTier] = useState("initiate");
   const [email, setEmail] = useState("");
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
   const { createCheckout, isLoading } = useStripeCheckout();
   const { toast } = useToast();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0b0b0f] to-[#1a1a2e] text-white">
+    <div className="min-h-screen bg-gradient-radial from-[#0b0b0f] via-[#1a1a2e] to-black text-white">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6">
         <div className="text-center max-w-4xl mx-auto">
           {/* Sigil Icon */}
           <div className="mb-8 inline-block">
-            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-[#8b1e3f] to-[#5e3d75] rounded-full flex items-center justify-center animate-pulse">
-              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 2L13 9L20 9L14.5 13.5L17 21L10 17L3 21L5.5 13.5L0 9L7 9L10 2Z"/>
+            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-[#8b1e3f] to-[#5e3d75] rounded-full flex items-center justify-center shadow-2xl">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path d="M12 2L8 7H16L12 2Z"/>
+                <path d="M12 22L16 17H8L12 22Z"/>
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M2 12L7 8V16L2 12Z"/>
+                <path d="M22 12L17 16V8L22 12Z"/>
               </svg>
             </div>
           </div>
@@ -30,15 +35,24 @@ export default function Home() {
           
           <p className="text-xl md:text-2xl text-gray-300 mb-12 font-light leading-relaxed">
             FFC is not a membership. It's a rite.<br />
-            <span className="text-white font-medium">$25/month unlocks access.</span>
+            <span className="text-white font-medium">$25/month. Immediate access. No questions.</span>
           </p>
           
-          <button 
-            onClick={() => setIsInitiationModalOpen(true)}
-            className="bg-gradient-to-r from-[#8b1e3f] to-[#5e3d75] hover:from-[#5e3d75] hover:to-[#8b1e3f] px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl"
-          >
-            Begin Initiation
-          </button>
+          <div className="relative inline-block">
+            <button 
+              onClick={() => setIsInitiationModalOpen(true)}
+              onMouseEnter={() => setIsButtonHovered(true)}
+              onMouseLeave={() => setIsButtonHovered(false)}
+              className="bg-gradient-to-r from-[#8b1e3f] to-[#5e3d75] hover:from-[#5e3d75] hover:to-[#8b1e3f] px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-[1.02] hover:brightness-110 hover:shadow-[0_0_12px_rgba(142,45,226,0.4)] shadow-2xl"
+            >
+              Enter the Veil
+            </button>
+            {isButtonHovered && (
+              <div className="absolute top-full mt-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm opacity-0 animate-[fadeIn_0.3s_ease-in-out_forwards]">
+                You won't see this again.
+              </div>
+            )}
+          </div>
           
           <div className="mt-16 text-gray-400 text-sm">
             <p>• Invitation Only • Privacy Guaranteed • Access Immediate •</p>
