@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=UnifrakturCook:wght@700&family=Cardo:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -19,6 +19,32 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes sigilRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes runeGlow {
+  0%, 100% { filter: drop-shadow(0 0 3px var(--bonked-glow)); }
+  50% { filter: drop-shadow(0 0 8px var(--bonked-glow)); }
+}
+
+@keyframes mysticPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(215, 181, 109, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(215, 181, 109, 0.6); }
+}
+
+@keyframes runicOpacity {
+  0%, 100% { opacity: 0.6; }
+  33% { opacity: 0.8; }
+  66% { opacity: 0.4; }
 }
 
 :root {
@@ -49,6 +75,12 @@
   --ffc-velvet: hsl(267, 28%, 42%);
   --ffc-gray: hsl(240, 6%, 10%);
   --ffc-gray-light: hsl(240, 4%, 16%);
+  
+  /* Ancient Crypto Ritual Colors */
+  --veil-dark: #0a0a0a;
+  --bonked-glow: #FF3366;
+  --parchment-gold: #D7B56D;
+  --sigil-purple: #5B2670;
 }
 
 .dark {

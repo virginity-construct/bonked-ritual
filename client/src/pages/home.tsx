@@ -84,20 +84,36 @@ export default function Home() {
             </div>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
-            <span className="bg-gradient-to-r from-white to-[#8b1e3f] bg-clip-text text-transparent">You Didn't Ask.</span><br />
-            <span className="text-[#8b1e3f]">You Were Chosen.</span>
-          </h1>
+          <div className="relative">
+            {/* Radial gradient behind title */}
+            <div className="absolute inset-0 bg-gradient-radial from-[var(--sigil-purple)]/20 via-transparent to-transparent blur-xl scale-150"></div>
+            
+            <h1 className="relative text-5xl md:text-7xl font-bold mb-6 leading-tight" style={{ fontFamily: 'UnifrakturCook, serif' }}>
+              <span className="bg-gradient-to-r from-white to-[#8b1e3f] bg-clip-text text-transparent">You Didn't Ask.</span><br />
+              <span className="text-[var(--bonked-glow)]" style={{ textShadow: '0 0 10px var(--bonked-glow), 0 0 20px var(--bonked-glow), 0 0 40px var(--bonked-glow)' }}>You Were Chosen.</span>
+            </h1>
+          </div>
           
-          <p className="text-xl md:text-2xl text-gray-300 mb-6 font-light leading-relaxed">
-            Frequent Fuck Club isn't a membership. It's a rite.<br />
+          <p className="text-xl md:text-2xl mb-6 font-light leading-relaxed">
+            <span className="text-[var(--parchment-gold)] animate-[flicker_3s_ease-in-out_infinite]">Frequent Fuck Club isn't a membership. It's a rite.</span><br />
             <span className="text-white font-medium">$25/month. Immediate access. No questions.</span>
           </p>
           
-          <div className="relative group mb-6">
-            <p className="text-lg text-amber-300 font-medium leading-relaxed cursor-default">
-              ⚠ Includes $500 in unreleased BONKED vault content — never posted, never repeated, soon token-gated.
-            </p>
+          <div className="relative group mb-6 p-4 rounded-lg border border-[var(--parchment-gold)]/30 hover:animate-[mysticPulse_2s_ease-in-out_infinite] transition-all duration-500" 
+               style={{ 
+                 background: 'linear-gradient(135deg, rgba(215, 181, 109, 0.05), rgba(91, 38, 112, 0.05))',
+                 backgroundBlendMode: 'overlay'
+               }}>
+            <div className="flex items-center gap-3">
+              <svg className="w-6 h-6 text-[var(--bonked-glow)] animate-[runeGlow_2s_ease-in-out_infinite]" 
+                   fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L15 6L20 8L15 12L20 16L15 18L12 22L9 18L4 16L9 12L4 8L9 6Z"/>
+                <circle cx="12" cy="12" r="2"/>
+              </svg>
+              <p className="text-lg text-[var(--parchment-gold)] font-medium leading-relaxed cursor-default">
+                Includes $500 in unreleased BONKED vault content — never posted, never repeated, soon token-gated.
+              </p>
+            </div>
             <p className="text-sm text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
               Some things aren't sold. They vanish.
             </p>
@@ -112,9 +128,18 @@ export default function Home() {
               onClick={() => setIsInitiationModalOpen(true)}
               onMouseEnter={() => setIsButtonHovered(true)}
               onMouseLeave={() => setIsButtonHovered(false)}
-              className="bg-gradient-to-r from-[#8b1e3f] to-[#5e3d75] hover:from-[#5e3d75] hover:to-[#8b1e3f] px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-[1.02] hover:brightness-110 hover:shadow-[0_0_12px_rgba(142,45,226,0.4)] shadow-2xl"
+              className="relative bg-gradient-to-r from-[var(--sigil-purple)] to-[#8b1e3f] px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-[1.02] shadow-2xl overflow-hidden"
+              style={{ 
+                boxShadow: isButtonHovered ? '0 0 8px var(--parchment-gold)' : 'none',
+                fontFamily: 'Cardo, serif'
+              }}
             >
-              Enter the Veil
+              <span className={`transition-opacity duration-300 ${isButtonHovered ? 'opacity-0' : 'opacity-100'}`}>
+                Enter the Veil
+              </span>
+              <span className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isButtonHovered ? 'opacity-100' : 'opacity-0'}`}>
+                You only enter once.
+              </span>
             </button>
             {isButtonHovered && (
               <div className="absolute top-full mt-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm opacity-0 animate-[fadeIn_0.3s_ease-in-out_forwards]">
