@@ -7,6 +7,10 @@ import { insertUserSchema } from "@shared/schema";
 import { whisperEngine } from "./whisper-engine";
 import { bonkedIntegration } from "./bonked-integration";
 import { veiledRoom } from "./veiled-room";
+import { voiceOracle } from "./voice-oracle";
+import { physicalTokenService } from "./physical-tokens";
+import { bonkedGovernance } from "./bonked-governance";
+import { veiledEncounters } from "./veiled-encounters";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -327,6 +331,128 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.send(roomInterface);
     } catch (error: any) {
       res.status(500).json({ message: "Error loading veiled room: " + error.message });
+    }
+  });
+
+  // Voice Oracle API - ElevenLabs Integration
+  app.post("/api/generate-voice-whisper", async (req, res) => {
+    try {
+      const { userId, textContent } = req.body;
+      const voiceWhisper = await voiceOracle.generateVoiceWhisper(userId, textContent);
+      res.json(voiceWhisper);
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/oracle-prompts", async (req, res) => {
+    try {
+      const prompts = voiceOracle.generateIntimatePrompts();
+      res.json({ prompts });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading oracle prompts: " + error.message });
+    }
+  });
+
+  // Physical Token System
+  app.get("/api/token-eligibility/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const eligibility = await physicalTokenService.checkTokenEligibility(userId);
+      res.json(eligibility);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error checking token eligibility: " + error.message });
+    }
+  });
+
+  app.post("/api/request-physical-token", async (req, res) => {
+    try {
+      const { userId, shippingAddress } = req.body;
+      const token = await physicalTokenService.scheduleTokenShipment(userId, shippingAddress);
+      res.json({ message: "Physical token scheduled for shipment", token });
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  // BONKED Governance System
+  app.get("/api/governance/proposals", async (req, res) => {
+    try {
+      const proposals = bonkedGovernance.getActiveProposals();
+      res.json({ proposals });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading proposals: " + error.message });
+    }
+  });
+
+  app.post("/api/governance/stake", async (req, res) => {
+    try {
+      const { userId, amount } = req.body;
+      const position = await bonkedGovernance.stake(userId, amount);
+      res.json({ message: "Staking successful", position });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error staking tokens: " + error.message });
+    }
+  });
+
+  app.post("/api/governance/vote", async (req, res) => {
+    try {
+      const { proposalId, userId, choice } = req.body;
+      const result = await bonkedGovernance.vote(proposalId, userId, choice);
+      res.json({ success: result, message: "Vote recorded successfully" });
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/governance/rewards/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const rewards = bonkedGovernance.getStakingRewards(userId);
+      res.json(rewards);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading rewards: " + error.message });
+    }
+  });
+
+  // Veiled Encounters System
+  app.get("/api/encounters/eligibility/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const eligibility = await veiledEncounters.checkEncounterEligibility(userId);
+      res.json(eligibility);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error checking encounter eligibility: " + error.message });
+    }
+  });
+
+  app.get("/api/encounters/providers/:userTier", async (req, res) => {
+    try {
+      const userTier = req.params.userTier;
+      const providers = veiledEncounters.getAvailableProviders(userTier);
+      res.json({ providers });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading providers: " + error.message });
+    }
+  });
+
+  app.post("/api/encounters/request", async (req, res) => {
+    try {
+      const { userId, providerId, ...details } = req.body;
+      const requestId = await veiledEncounters.requestEncounter(userId, providerId, details);
+      res.json({ requestId, message: "Encounter request submitted for review" });
+    } catch (error: any) {
+      res.status(403).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/encounters", async (req, res) => {
+    try {
+      const encounterInterface = veiledEncounters.generateEncounterInterface();
+      res.setHeader('Content-Type', 'text/html');
+      res.send(encounterInterface);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error loading encounters: " + error.message });
     }
   });
 
