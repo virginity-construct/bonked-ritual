@@ -512,9 +512,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/anointing", async (req, res) => {
     try {
-      const interface = anointingSystem.generateAnointingInterface();
+      const anointingInterface = anointingSystem.generateAnointingInterface();
       res.setHeader('Content-Type', 'text/html');
-      res.send(interface);
+      res.send(anointingInterface);
     } catch (error: any) {
       res.status(500).json({ message: "Error loading anointing interface: " + error.message });
     }
@@ -542,9 +542,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/ritual-scarcity", async (req, res) => {
     try {
-      const interface = ritualScarcity.generateScarcityInterface();
+      const scarcityInterface = ritualScarcity.generateScarcityInterface();
       res.setHeader('Content-Type', 'text/html');
-      res.send(interface);
+      res.send(scarcityInterface);
     } catch (error: any) {
       res.status(500).json({ message: "Error loading ritual scarcity: " + error.message });
     }
@@ -582,9 +582,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/tokens", async (req, res) => {
     try {
-      const interface = gamifiedTokens.generateClaimInterface();
+      const tokenInterface = gamifiedTokens.generateClaimInterface();
       res.setHeader('Content-Type', 'text/html');
-      res.send(interface);
+      res.send(tokenInterface);
     } catch (error: any) {
       res.status(500).json({ message: "Error loading token interface: " + error.message });
     }

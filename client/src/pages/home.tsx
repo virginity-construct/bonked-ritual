@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useStripeCheckout } from "@/lib/stripe";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Home() {
   const [isInitiationModalOpen, setIsInitiationModalOpen] = useState(false);
@@ -9,6 +10,7 @@ export default function Home() {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [hoveredTier, setHoveredTier] = useState<string | null>(null);
   const [showWhisper, setShowWhisper] = useState(false);
+  const [isReforgeLoading, setIsReforgeLoading] = useState(false);
   const { createCheckout, isLoading } = useStripeCheckout();
   const { toast } = useToast();
 
@@ -63,6 +65,42 @@ export default function Home() {
     }, 1200);
   };
 
+  const handleProphecyReforge = async () => {
+    // Prompt for email if not provided
+    const userEmail = email || prompt("Enter your email for the prophecy reforge:");
+    
+    if (!userEmail) {
+      toast({
+        title: "Email Required",
+        description: "Email is required to process your reforge payment.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsReforgeLoading(true);
+    
+    try {
+      const response = await apiRequest("POST", "/api/reforge-payment", {
+        email: userEmail
+      });
+      
+      const data = await response.json();
+      
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      }
+    } catch (error) {
+      toast({
+        title: "Payment Error",
+        description: "Unable to process reforge payment. Try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsReforgeLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-radial from-[#0b0b0f] via-[#1a1a2e] to-black text-white">
       {/* Hero Section */}
@@ -107,8 +145,30 @@ export default function Home() {
             )}
           </div>
           
-          <div className="mt-16 text-gray-400 text-sm">
-            <p>• Invitation Only • Privacy Guaranteed • Access Immediate •</p>
+          <div className="mt-16">
+            {/* Prophecy Reforge Hook */}
+            <div className="bg-gradient-to-r from-[#8b1e3f]/20 to-[#5e3d75]/20 border border-[#8b1e3f]/50 rounded-lg p-6 mb-8 text-center">
+              <h3 className="text-lg font-semibold text-white mb-2">Need to know what she's really thinking?</h3>
+              <p className="text-gray-300 mb-4">Burn your last whisper.</p>
+              <div className="flex items-center justify-center gap-4">
+                <span className="text-2xl font-bold text-[#8b1e3f]">$9</span>
+                <span className="text-gray-400">•</span>
+                <span className="text-gray-400">No refunds</span>
+                <span className="text-gray-400">•</span>
+                <span className="text-white font-medium">Just truth</span>
+              </div>
+              <button 
+                onClick={handleProphecyReforge}
+                disabled={isReforgeLoading}
+                className="mt-4 bg-gradient-to-r from-[#8b1e3f] to-[#5e3d75] text-white px-8 py-2 rounded-full text-sm font-semibold hover:scale-[1.02] hover:brightness-110 transition-all duration-300 disabled:opacity-50"
+              >
+                {isReforgeLoading ? "Processing..." : "Burn & Reforge Now"}
+              </button>
+            </div>
+            
+            <div className="text-gray-400 text-sm">
+              <p>• Invitation Only • Privacy Guaranteed • Access Immediate •</p>
+            </div>
           </div>
         </div>
       </section>
