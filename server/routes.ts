@@ -632,11 +632,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/prophecy", async (req, res) => {
     try {
-      const interface = prophecyReforging.generateReforgeInterface();
+      const prophecyInterface = prophecyReforging.generateReforgeInterface();
       res.setHeader('Content-Type', 'text/html');
-      res.send(interface);
+      res.send(prophecyInterface);
     } catch (error: any) {
       res.status(500).json({ message: "Error loading prophecy interface: " + error.message });
+    }
+  });
+
+  // Prophecy Reforge payment - $9 instant checkout
+  app.post("/api/reforge-payment", async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+      }
+      
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Prophecy Reforge',
+              description: 'Burn your last whisper for deeper truth',
+            },
+            unit_amount: 900, // $9.00 in cents
+          },
+          quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: `${process.env.CLIENT_URL || 'http://localhost:5000'}/success?session_id={CHECKOUT_SESSION_ID}&type=reforge`,
+        cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5000'}?canceled=true`,
+        customer_email: email,
+        metadata: {
+          type: 'prophecy_reforge',
+          amount: '9.00'
+        }
+      });
+
+      res.json({ 
+        checkoutUrl: session.url,
+        sessionId: session.id 
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error creating reforge payment: " + error.message });
     }
   });
 
