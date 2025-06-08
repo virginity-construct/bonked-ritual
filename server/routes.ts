@@ -4,6 +4,9 @@ import Stripe from "stripe";
 import { MailService } from '@sendgrid/mail';
 import { storage } from "./storage";
 import { insertUserSchema } from "@shared/schema";
+import { whisperEngine } from "./whisper-engine";
+import { bonkedIntegration } from "./bonked-integration";
+import { veiledRoom } from "./veiled-room";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
