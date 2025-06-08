@@ -86,23 +86,22 @@ export default function Home() {
       <div className="ritual-glyph"></div>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
-        {/* Ambient Sigils */}
+        {/* Directional Veil Symbols */}
         <div className="absolute inset-0 pointer-events-none">
-          <svg className="absolute top-1/4 left-1/4 w-12 h-12 text-[var(--sigil-purple)]/20 animate-[sigilRotate_60s_linear_infinite]" 
-               fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L8 7H16L12 2Z"/>
-            <path d="M12 22L16 17H8L12 22Z"/>
-            <circle cx="12" cy="12" r="3"/>
+          <svg className="absolute top-1/3 left-1/4 w-8 h-8 text-[var(--sigil-purple)]/25 animate-[sigilRotate_60s_linear_infinite]" 
+               fill="currentColor" viewBox="0 0 24 24"
+               style={{ transform: 'rotate(45deg) translateY(2px)' }}>
+            <path d="M12 2L20 12L12 22L4 12Z"/>
           </svg>
-          <svg className="absolute top-3/4 right-1/3 w-10 h-10 text-[var(--parchment-gold)]/15 animate-[sigilRotate_90s_linear_infinite_reverse]" 
-               fill="currentColor" viewBox="0 0 24 24">
-            <path d="M2 12L7 8V16L2 12Z"/>
-            <path d="M22 12L17 16V8L22 12Z"/>
-            <circle cx="12" cy="12" r="2"/>
+          <svg className="absolute top-2/3 right-1/4 w-6 h-6 text-[var(--parchment-gold)]/20 animate-[sigilRotate_90s_linear_infinite_reverse]" 
+               fill="currentColor" viewBox="0 0 24 24"
+               style={{ transform: 'rotate(225deg) translateY(2px)' }}>
+            <path d="M12 2L20 12L12 22L4 12Z"/>
           </svg>
-          <svg className="absolute bottom-1/4 left-3/4 w-8 h-8 text-[var(--bonked-glow)]/10 animate-[sigilRotate_45s_linear_infinite]" 
-               fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L15 6L20 8L15 12L20 16L15 18L12 22L9 18L4 16L9 12L4 8L9 6Z"/>
+          <svg className="absolute bottom-1/3 left-2/3 w-7 h-7 text-[var(--bonked-glow)]/15 animate-[sigilRotate_45s_linear_infinite]" 
+               fill="currentColor" viewBox="0 0 24 24"
+               style={{ transform: 'rotate(135deg) translateY(2px)' }}>
+            <path d="M12 2L20 12L12 22L4 12Z"/>
           </svg>
         </div>
         <div className="text-center max-w-4xl mx-auto">
@@ -130,7 +129,7 @@ export default function Home() {
           </div>
           
           <p className="text-xl md:text-2xl mb-6 font-light leading-relaxed">
-            <span className="text-[var(--parchment-gold)] animate-[flicker_3s_ease-in-out_infinite]">Frequent Fuck Club isn't a membership. It's a rite.</span><br />
+            <span className="glow-title text-[var(--parchment-gold)] animate-[flicker_3s_ease-in-out_infinite]">Frequent Fuck Club isn't a membership. It's a rite.</span><br />
             <span className="text-white font-medium">$25/month. Immediate access. No questions.</span>
           </p>
           
@@ -140,11 +139,20 @@ export default function Home() {
                  backgroundBlendMode: 'overlay'
                }}>
             <div className="flex items-center gap-3">
-              <svg className="w-6 h-6 text-[var(--bonked-glow)] animate-[runeGlow_2s_ease-in-out_infinite]" 
-                   fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L15 6L20 8L15 12L20 16L15 18L12 22L9 18L4 16L9 12L4 8L9 6Z"/>
-                <circle cx="12" cy="12" r="2"/>
-              </svg>
+              <span className="sigil-icon text-2xl text-[var(--parchment-gold)] animate-[runeGlow_2s_ease-in-out_infinite]" 
+                    style={{ 
+                      filter: 'drop-shadow(0 0 4px var(--parchment-gold))',
+                      border: '1px solid var(--parchment-gold)',
+                      borderRadius: '50%',
+                      padding: '4px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '32px',
+                      height: '32px'
+                    }}>
+                𓂀
+              </span>
               <p className="text-lg text-[var(--parchment-gold)] font-medium leading-relaxed cursor-default">
                 Includes $500 in unreleased BONKED vault content — never posted, never repeated, soon token-gated.
               </p>
@@ -170,7 +178,7 @@ export default function Home() {
               }}
             >
               <span className={`transition-opacity duration-300 ${isButtonHovered ? 'opacity-0' : 'opacity-100'}`}>
-                Enter the Veil
+                Step Through Quietly
               </span>
               <span className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isButtonHovered ? 'opacity-100' : 'opacity-0'}`}>
                 You only enter once.

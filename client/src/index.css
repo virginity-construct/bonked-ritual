@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=UnifrakturCook:wght@700&family=Cardo:wght@400;700&family=Cinzel:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=UnifrakturCook:wght@700&family=Cardo:wght@400;700&family=Cinzel:wght@400;500;600;700&display=swap');
 
 /* Sacred Ritual Font */
 @font-face {
@@ -59,6 +59,11 @@
 @keyframes blurPulse {
   0%, 100% { text-shadow: 0 0 10px var(--bonked-glow), 0 0 20px var(--bonked-glow), 0 0 40px var(--bonked-glow); }
   50% { text-shadow: 0 0 20px var(--bonked-glow), 0 0 40px var(--bonked-glow), 0 0 80px var(--bonked-glow); }
+}
+
+@keyframes whisperGlow {
+  0%, 100% { text-shadow: 0 0 6px #ff0070; }
+  50% { text-shadow: 0 0 18px #ff0070; }
 }
 
 :root {
@@ -126,7 +131,7 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     background: linear-gradient(135deg, var(--ffc-black) 0%, var(--ffc-gray) 100%);
     overflow-x: hidden;
   }
@@ -163,6 +168,10 @@
   /* Scroll-triggered states */
   body.scrolled .hero-title {
     animation: blurPulse 3s infinite;
+  }
+
+  body.scrolled .glow-title {
+    animation: whisperGlow 2s ease-in-out infinite;
   }
 
   body.scrolled .ritual-glyph {
