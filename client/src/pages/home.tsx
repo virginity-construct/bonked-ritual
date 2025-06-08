@@ -90,18 +90,22 @@ export default function Home() {
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-300 mb-6 font-light leading-relaxed">
-            FFC is not a membership. It's a rite.<br />
+            Frequent Fuck Club isn't a membership. It's a rite.<br />
             <span className="text-white font-medium">$25/month. Immediate access. No questions.</span>
           </p>
           
-          <div className="relative group mb-12">
+          <div className="relative group mb-6">
             <p className="text-lg text-amber-300 font-medium leading-relaxed cursor-default">
-              🜁 Includes $500 in unreleased BONKED videos – never posted, never repeated.
+              ⚠ Includes $500 in unreleased BONKED vault content — never posted, never repeated, soon token-gated.
             </p>
             <p className="text-sm text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
               Some things aren't sold. They vanish.
             </p>
           </div>
+          
+          <p className="text-base text-gray-400 mb-12 font-medium">
+            This isn't just private. It's pre-market.
+          </p>
           
           <div className="relative inline-block">
             <button 
