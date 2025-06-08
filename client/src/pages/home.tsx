@@ -69,7 +69,26 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-radial from-[#0b0b0f] via-[#1a1a2e] to-black text-white">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-6">
+      <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
+        {/* Ambient Sigils */}
+        <div className="absolute inset-0 pointer-events-none">
+          <svg className="absolute top-1/4 left-1/4 w-12 h-12 text-[var(--sigil-purple)]/20 animate-[sigilRotate_60s_linear_infinite]" 
+               fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L8 7H16L12 2Z"/>
+            <path d="M12 22L16 17H8L12 22Z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <svg className="absolute top-3/4 right-1/3 w-10 h-10 text-[var(--parchment-gold)]/15 animate-[sigilRotate_90s_linear_infinite_reverse]" 
+               fill="currentColor" viewBox="0 0 24 24">
+            <path d="M2 12L7 8V16L2 12Z"/>
+            <path d="M22 12L17 16V8L22 12Z"/>
+            <circle cx="12" cy="12" r="2"/>
+          </svg>
+          <svg className="absolute bottom-1/4 left-3/4 w-8 h-8 text-[var(--bonked-glow)]/10 animate-[sigilRotate_45s_linear_infinite]" 
+               fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L15 6L20 8L15 12L20 16L15 18L12 22L9 18L4 16L9 12L4 8L9 6Z"/>
+          </svg>
+        </div>
         <div className="text-center max-w-4xl mx-auto">
           {/* Sigil Icon */}
           <div className="mb-8 inline-block">
@@ -149,8 +168,8 @@ export default function Home() {
           </div>
           
           <div className="mt-8">
-            <div className="text-gray-400 text-sm">
-              <p>• Invitation Only • Privacy Guaranteed • Access Immediate •</p>
+            <div className="text-gray-400 text-sm animate-[runicOpacity_30s_ease-in-out_infinite]">
+              <p>🜁 Invitation Only 🜂 Privacy Guaranteed 🜃 Access Immediate 🜄</p>
             </div>
           </div>
         </div>
